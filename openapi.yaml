@@ -1,0 +1,385 @@
+openapi: 3.1.0
+info:
+  title: Food Bhai API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local server
+paths:
+  /shops:
+    get:
+      tags:
+        - Shop
+      operationId: getShops
+      summary: Get all available shops
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: A list of shops
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shops:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Shop'
+    post:
+      tags:
+        - Shop
+      operationId: createShop
+      summary: Create a new shop
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShopCreatePatch'
+      responses:
+        '200':
+          description: Shop created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shop'
+  /shops/{shopId}:
+    patch:
+      tags:
+        - Shop
+      operationId: updateShop
+      summary: Update a shop
+      parameters:
+        - in: path
+          name: shopId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShopCreatePatch'
+      responses:
+        '200':
+          description: Shop updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shop'
+    delete:
+      tags:
+        - Shop
+      operationId: deleteShop
+      summary: Delete a shop
+      parameters:
+        - in: path
+          name: shopId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Shop deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Shop deleted successfully
+  /register:
+    post:
+      tags:
+        - Auth
+      operationId: registerUser
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+      responses:
+        '200':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: User registered successfully
+  /login:
+    post:
+      tags:
+        - Auth
+      operationId: loginUser
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/LoginWithCreds'
+                - $ref: '#/components/schemas/LoginWithRefreshtoken'
+      responses:
+        '200':
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+
+components:
+  schemas:
+    Timestamp:
+      type: string
+      format: date-time
+    UserId:
+      type: string
+      format: uuid
+      description: ID of the user
+    UserName:
+      type: string
+      description: Name of the user
+    ShopId:
+      type: string
+      format: uuid
+      description: ID of the shop
+    LocationPrecise:
+      type: object
+      required:
+        - latitude
+        - longitude
+      properties:
+        latitude:
+          type: string
+          description: Latitude of the shop
+        longitude:
+          type: string
+          description: Longitude of the shop
+    ActivationTimeRange:
+      type: object
+      properties:
+        from:
+          type: string
+          description: Opening time
+        to:
+          type: string
+          description: Closing time
+    Rating:
+      type: number
+      description: Rating of the shop or user
+    LoginWithCreds: 
+      type: object
+      required:
+        - phoneNumber
+        - password
+      properties:
+        phoneNumber:
+          type: string
+          description: Phone number of the user
+        password:
+          type: string
+          description: Password of the user
+    LoginWithRefreshtoken:
+      type: object
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
+          description: Refresh token of the user
+    RatingPatch:
+      type: object
+      properties:
+        rating:
+          $ref: '#/components/schemas/Rating'
+        comment:
+          type: string
+          description: Comment for the rating
+    UserRegister:
+      type: object
+      required:
+        - name
+        - email
+        - password
+        - phoneNumber
+      properties:
+        name:
+          $ref: '#/components/schemas/UserName'
+        email:
+          type: string
+          description: Email of the user
+        phoneNumber:
+          type: string
+          description: Phone number of the user
+        password:
+          type: string
+          description: Password of the user
+    LoginResponse:
+      type: object
+      required:
+        - accessToken
+      properties:
+        accessToken:
+          type: string
+          description: JWT token for the user
+        refreshToken:
+          type: string
+          description: Refresh token for the user
+    User:
+      type: object
+      required:
+        - id
+        - name
+        - email
+        - createdAt
+        - phoneNumber
+      properties:
+        id: 
+          $ref: '#/components/schemas/UserId'
+        name:
+          $ref: '#/components/schemas/UserName'
+        email:
+          type: string
+          description: Email of the user
+        createdAt:
+          $ref: '#/components/schemas/Timestamp'
+        phoneNumber:
+          type: string
+          description: Phone number of the user
+        profileImage:
+          type: string
+          description: URL of the user's profile image
+        location:
+          type: string
+          description: Location of the user
+        locationPrecise:
+          $ref: '#/components/schemas/LocationPrecise'
+        rating:
+          $ref: '#/components/schemas/Rating'
+    UserPatch:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/UserName'
+        email:
+          type: string
+          description: Email of the user
+        phoneNumber:
+          type: string
+          description: Phone number of the user
+        profileImage:
+          type: string
+          description: URL of the user's profile image
+        location:
+          type: string
+          description: Location of the user
+        locationPrecise:
+          $ref: '#/components/schemas/LocationPrecise'
+        rating:
+          $ref: '#/components/schemas/RatingPatch'
+    Shop:
+      type: object
+      required:
+        - id
+        - name
+        - ownerId
+        - rating
+      properties:
+        id: 
+          $ref: '#/components/schemas/ShopId'
+        ownerId:
+          $ref: '#/components/schemas/UserId'
+        profileImage:
+          type: string
+          description: URL of the shop's profile image
+        coverImage:
+          type: string
+          description: URL of the shop's cover image
+        shopBio:
+          type: string
+          description: Bio of the shop
+        name:
+          type: string
+          description: Name of the shop
+        location:
+          type: string
+          description: Location of the shop
+        locationPrecise:
+          $ref: '#/components/schemas/LocationPrecise'
+        rating:
+          type: number
+          description: Rating of the shop
+        activeTimeRange:
+          oneOf:
+            - type: string
+              description: Always open
+              enum: ['anytime' , 'not-specified']
+            - $ref: '#/components/schemas/ActivationTimeRange'
+    ShopCreatePatch:
+      type: object
+      properties:
+        profileImage:
+          type: string
+          description: URL of the shop's profile image
+        coverImage:
+          type: string
+          description: URL of the shop's cover image
+        shopBio:
+          type: string
+          description: Bio of the shop
+        name:
+          type: string
+          description: Name of the shop
+        location:
+          type: string
+          description: Location of the shop
+        locationPrecise:
+          $ref: '#/components/schemas/LocationPrecise'
+        rating:
+          type: number
+          description: Rating of the shop
+        activeTimeRange:
+          oneOf:
+            - type: string
+              description: Always open
+              enum: ['anytime' , 'not-specified']
+            - $ref: '#/components/schemas/ActivationTimeRange'
+    RefreshToken:
+      type: object
+      additionalProperties: false
+      description: >
+        A refresh token allows you to generate access tokens to access
+
+        A refresh token will expire and become invalidated after 14 days of no
+        activity.
+      required:
+        - token
+        - userId
+        - createdAt
+        - expiresAt
+      properties:
+        token:
+          type: string
+        userId:
+          type: string
+        createdAt:
+          $ref: '#/components/schemas/Timestamp'
+        expiresAt:
+          $ref: '#/components/schemas/Timestamp'
+
+  
