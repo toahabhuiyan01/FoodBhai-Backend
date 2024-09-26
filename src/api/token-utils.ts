@@ -1,5 +1,5 @@
 import { Boom } from '@hapi/boom'
-import keys from '../../keys.json'
+import keys from '../keys.json'
 import { sign as signJWT, verify as verifyJWT, VerifyOptions } from 'jsonwebtoken'
 
 const JWT_ALG = 'RS256'
