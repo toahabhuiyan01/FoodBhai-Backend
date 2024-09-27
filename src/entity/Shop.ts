@@ -38,8 +38,6 @@ export default class Shop {
         
     @OneToMany(() => Rating, ({ shop }) => shop, { onDelete: 'CASCADE' })
         ratings: Rating[];
-        
-    @
 
     @ManyToOne(() => User, ({ shops }) => shops, { onDelete: 'SET NULL' })
     @JoinColumn()
