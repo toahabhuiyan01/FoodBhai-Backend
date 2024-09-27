@@ -182,6 +182,9 @@ components:
     Rating:
       type: number
       description: Rating of the shop or user
+    Review:
+      type: number
+      description: Review count
     LoginWithCreds: 
       type: object
       required:
@@ -210,6 +213,154 @@ components:
         comment:
           type: string
           description: Comment for the rating
+    ProductId:
+      type: string
+      format: uuid
+      description: ID of the product
+    ProductName:
+      type: string
+      description: Name of the product
+    ProductDescription:
+      type: string
+      description: Description of the product
+    ProductCategory:
+      type: string
+      description: Category of the product
+    ProductSku:
+      type: string
+      description: SKU of the product
+    ProductSlug:
+      type: string
+      description: Slug of the product
+    ProductTags:
+      type: array
+      items:
+        type: string
+      description: Tags of the product
+    ProductImage:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          description: URL of the image
+        alt:
+          type: string
+          description: Alt text for the image
+    ProductPrice:
+      type: object
+      required:
+        - price
+        - currency
+      properties:
+        price:
+          type: number
+          description: Price of the product
+        currency:
+          type: string
+          description: Currency of the price
+        discount:
+          type: number
+          description: Discount on the product
+        finalPrice:
+          type: number
+          description: Final price of the product
+    ProductStockQuantity:
+      type: object
+      required:
+        - quantity
+      properties:
+        quantity:
+          type: number
+          description: Quantity of the product
+    ProductStockPreOrder:
+      type: object
+      required:
+        - quantity
+        - unit
+        - time
+      properties:
+        availability:
+          type: string
+          enum:: ['in-stock', 'pre-order']
+    ProductStock:
+      oneOf:
+        - $ref: '#/components/schemas/ProductStockQuantity'
+        - $ref: '#/components/schemas/ProductStockPreOrder'
+    ProductPromotion:
+      type: object
+      required:
+        - startDate
+        - endDate
+      properties:
+        startDate:
+          $ref: '#/components/schemas/Timestamp'
+        endDate:
+          $ref: '#/components/schemas/Timestamp'
+        discountPercentage:
+          type: number
+          description: Discount percentage
+        discountAmount:
+          type: number
+          description: Discount amount
+    ProductAttributes:
+      type: object
+      additionalProperties: true
+    ProductVariant:
+      type: object
+      properties:
+        color:
+          type: string
+          description: Color of the product
+        size:
+          type: string
+          description: Size of the product
+        stock:
+          $ref: '#/components/schemas/ProductStock'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductImage'
+    Product:
+      type: object
+      properties:
+        id: 
+          $ref: '#/components/schemas/ProductId'
+        name:
+          $ref: '#/components/schemas/ProductName'
+        description:
+          $ref: '#/components/schemas/ProductDescription'
+        images:
+          type: array
+          minItems: 1
+          maxItems: 5
+          items:
+            $ref: '#/components/schemas/ProductImage'
+        category:
+          $ref: '#/components/schemas/ProductCategory'
+        sku:
+          $ref: '#/components/schemas/ProductSku'
+        Rating:
+          $ref: '#/components/schemas/Rating'
+        reviews:
+          $ref: '#/components/schemas/Review'
+        price:
+          $ref: '#/components/schemas/ProductPrice'
+        stock:
+          $ref: '#/components/schemas/ProductStock'
+        variants:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductVariant'
+        attributes:
+          $ref: '#/components/schemas/ProductAttributes'
+        promotion:
+          $ref: '#/components/schemas/ProductPromotion'
+        shopId:
+          $ref: '#/components/schemas/ShopId'
+        ownerId:
+          $ref: '#/components/schemas/UserId'
     UserRegister:
       type: object
       required:

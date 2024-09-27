@@ -54,6 +54,122 @@ declare namespace Components {
              */
             refreshToken: string;
         }
+        export interface Product {
+            id?: /* ID of the product */ ProductId /* uuid */;
+            name?: /* Name of the product */ ProductName;
+            description?: /* Description of the product */ ProductDescription;
+            images?: [
+                ProductImage,
+                ProductImage?,
+                ProductImage?,
+                ProductImage?,
+                ProductImage?
+            ];
+            category?: /* Category of the product */ ProductCategory;
+            sku?: /* SKU of the product */ ProductSku;
+            Rating?: /* Rating of the shop or user */ Rating;
+            reviews?: /* Review count */ Review;
+            price?: ProductPrice;
+            stock?: ProductStock;
+            variants?: ProductVariant[];
+            attributes?: ProductAttributes;
+            promotion?: ProductPromotion;
+            shopId?: /* ID of the shop */ ShopId /* uuid */;
+            ownerId?: /* ID of the user */ UserId /* uuid */;
+        }
+        export interface ProductAttributes {
+            [name: string]: any;
+        }
+        /**
+         * Category of the product
+         */
+        export type ProductCategory = string;
+        /**
+         * Description of the product
+         */
+        export type ProductDescription = string;
+        /**
+         * ID of the product
+         */
+        export type ProductId = string; // uuid
+        export interface ProductImage {
+            /**
+             * URL of the image
+             */
+            url: string;
+            /**
+             * Alt text for the image
+             */
+            alt?: string;
+        }
+        /**
+         * Name of the product
+         */
+        export type ProductName = string;
+        export interface ProductPrice {
+            /**
+             * Price of the product
+             */
+            price: number;
+            /**
+             * Currency of the price
+             */
+            currency: string;
+            /**
+             * Discount on the product
+             */
+            discount?: number;
+            /**
+             * Final price of the product
+             */
+            finalPrice?: number;
+        }
+        export interface ProductPromotion {
+            startDate: Timestamp /* date-time */;
+            endDate: Timestamp /* date-time */;
+            /**
+             * Discount percentage
+             */
+            discountPercentage?: number;
+            /**
+             * Discount amount
+             */
+            discountAmount?: number;
+        }
+        /**
+         * SKU of the product
+         */
+        export type ProductSku = string;
+        /**
+         * Slug of the product
+         */
+        export type ProductSlug = string;
+        export type ProductStock = ProductStockQuantity | ProductStockPreOrder;
+        export interface ProductStockPreOrder {
+            availability?: string;
+        }
+        export interface ProductStockQuantity {
+            /**
+             * Quantity of the product
+             */
+            quantity: number;
+        }
+        /**
+         * Tags of the product
+         */
+        export type ProductTags = string[];
+        export interface ProductVariant {
+            /**
+             * Color of the product
+             */
+            color?: string;
+            /**
+             * Size of the product
+             */
+            size?: string;
+            stock?: ProductStock;
+            images?: ProductImage[];
+        }
         /**
          * Rating of the shop or user
          */
@@ -76,6 +192,10 @@ declare namespace Components {
             createdAt: Timestamp /* date-time */;
             expiresAt: Timestamp /* date-time */;
         }
+        /**
+         * Review count
+         */
+        export type Review = number;
         export interface Shop {
             id: /* ID of the shop */ ShopId /* uuid */;
             ownerId: /* ID of the user */ UserId /* uuid */;
@@ -166,16 +286,6 @@ declare namespace Components {
          * ID of the user
          */
         export type UserId = string; // uuid
-        export interface UserLogin {
-            /**
-             * Phone number of the user
-             */
-            phoneNumber: string;
-            /**
-             * Password of the user
-             */
-            password: string;
-        }
         /**
          * Name of the user
          */
@@ -402,16 +512,32 @@ export type LocationPrecise = Components.Schemas.LocationPrecise;
 export type LoginResponse = Components.Schemas.LoginResponse;
 export type LoginWithCreds = Components.Schemas.LoginWithCreds;
 export type LoginWithRefreshtoken = Components.Schemas.LoginWithRefreshtoken;
+export type Product = Components.Schemas.Product;
+export type ProductAttributes = Components.Schemas.ProductAttributes;
+export type ProductCategory = Components.Schemas.ProductCategory;
+export type ProductDescription = Components.Schemas.ProductDescription;
+export type ProductId = Components.Schemas.ProductId;
+export type ProductImage = Components.Schemas.ProductImage;
+export type ProductName = Components.Schemas.ProductName;
+export type ProductPrice = Components.Schemas.ProductPrice;
+export type ProductPromotion = Components.Schemas.ProductPromotion;
+export type ProductSku = Components.Schemas.ProductSku;
+export type ProductSlug = Components.Schemas.ProductSlug;
+export type ProductStock = Components.Schemas.ProductStock;
+export type ProductStockPreOrder = Components.Schemas.ProductStockPreOrder;
+export type ProductStockQuantity = Components.Schemas.ProductStockQuantity;
+export type ProductTags = Components.Schemas.ProductTags;
+export type ProductVariant = Components.Schemas.ProductVariant;
 export type Rating = Components.Schemas.Rating;
 export type RatingPatch = Components.Schemas.RatingPatch;
 export type RefreshToken = Components.Schemas.RefreshToken;
+export type Review = Components.Schemas.Review;
 export type Shop = Components.Schemas.Shop;
 export type ShopCreatePatch = Components.Schemas.ShopCreatePatch;
 export type ShopId = Components.Schemas.ShopId;
 export type Timestamp = Components.Schemas.Timestamp;
 export type User = Components.Schemas.User;
 export type UserId = Components.Schemas.UserId;
-export type UserLogin = Components.Schemas.UserLogin;
 export type UserName = Components.Schemas.UserName;
 export type UserPatch = Components.Schemas.UserPatch;
 export type UserRegister = Components.Schemas.UserRegister;

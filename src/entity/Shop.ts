@@ -1,6 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, RelationId, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, RelationId, JoinColumn, OneToMany } from 'typeorm';
 import { components } from '../types/openapi';
 import User from './User';
+import Product from './Product';
+import Rating from './Rating';
 
 @Entity()
 export default class Shop {
@@ -30,6 +32,14 @@ export default class Shop {
 
     @Column({ nullable: true })
         activeTimeRange: string
+        
+    @OneToMany(() => Product, ({ shop }) => shop, { onDelete: 'CASCADE' })
+        products: Product[];
+        
+    @OneToMany(() => Rating, ({ shop }) => shop, { onDelete: 'CASCADE' })
+        ratings: Rating[];
+        
+    @
 
     @ManyToOne(() => User, ({ shops }) => shops, { onDelete: 'SET NULL' })
     @JoinColumn()

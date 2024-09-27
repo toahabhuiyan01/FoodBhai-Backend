@@ -64,6 +64,8 @@ export interface components {
         };
         /** @description Rating of the shop or user */
         Rating: number;
+        /** @description Review count */
+        Review: number;
         LoginWithCreds: {
             /** @description Phone number of the user */
             phoneNumber: string;
@@ -79,16 +81,87 @@ export interface components {
             /** @description Comment for the rating */
             comment?: string;
         };
+        /**
+         * Format: uuid
+         * @description ID of the product
+         */
+        ProductId: string;
+        /** @description Name of the product */
+        ProductName: string;
+        /** @description Description of the product */
+        ProductDescription: string;
+        /** @description Category of the product */
+        ProductCategory: string;
+        /** @description SKU of the product */
+        ProductSku: string;
+        /** @description Slug of the product */
+        ProductSlug: string;
+        /** @description Tags of the product */
+        ProductTags: string[];
+        ProductImage: {
+            /** @description URL of the image */
+            url: string;
+            /** @description Alt text for the image */
+            alt?: string;
+        };
+        ProductPrice: {
+            /** @description Price of the product */
+            price: number;
+            /** @description Currency of the price */
+            currency: string;
+            /** @description Discount on the product */
+            discount?: number;
+            /** @description Final price of the product */
+            finalPrice?: number;
+        };
+        ProductStockQuantity: {
+            /** @description Quantity of the product */
+            quantity: number;
+        };
+        ProductStockPreOrder: {
+            availability?: string;
+        };
+        ProductStock: components["schemas"]["ProductStockQuantity"] | components["schemas"]["ProductStockPreOrder"];
+        ProductPromotion: {
+            startDate: components["schemas"]["Timestamp"];
+            endDate: components["schemas"]["Timestamp"];
+            /** @description Discount percentage */
+            discountPercentage?: number;
+            /** @description Discount amount */
+            discountAmount?: number;
+        };
+        ProductAttributes: {
+            [key: string]: unknown;
+        };
+        ProductVariant: {
+            /** @description Color of the product */
+            color?: string;
+            /** @description Size of the product */
+            size?: string;
+            stock?: components["schemas"]["ProductStock"];
+            images?: components["schemas"]["ProductImage"][];
+        };
+        Product: {
+            id?: components["schemas"]["ProductId"];
+            name?: components["schemas"]["ProductName"];
+            description?: components["schemas"]["ProductDescription"];
+            images?: components["schemas"]["ProductImage"][];
+            category?: components["schemas"]["ProductCategory"];
+            sku?: components["schemas"]["ProductSku"];
+            Rating?: components["schemas"]["Rating"];
+            reviews?: components["schemas"]["Review"];
+            price?: components["schemas"]["ProductPrice"];
+            stock?: components["schemas"]["ProductStock"];
+            variants?: components["schemas"]["ProductVariant"][];
+            attributes?: components["schemas"]["ProductAttributes"];
+            promotion?: components["schemas"]["ProductPromotion"];
+            shopId?: components["schemas"]["ShopId"];
+            ownerId?: components["schemas"]["UserId"];
+        };
         UserRegister: {
             name: components["schemas"]["UserName"];
             /** @description Email of the user */
             email: string;
-            /** @description Phone number of the user */
-            phoneNumber: string;
-            /** @description Password of the user */
-            password: string;
-        };
-        UserLogin: {
             /** @description Phone number of the user */
             phoneNumber: string;
             /** @description Password of the user */
@@ -185,11 +258,27 @@ export type SchemaShopId = components['schemas']['ShopId'];
 export type SchemaLocationPrecise = components['schemas']['LocationPrecise'];
 export type SchemaActivationTimeRange = components['schemas']['ActivationTimeRange'];
 export type SchemaRating = components['schemas']['Rating'];
+export type SchemaReview = components['schemas']['Review'];
 export type SchemaLoginWithCreds = components['schemas']['LoginWithCreds'];
 export type SchemaLoginWithRefreshtoken = components['schemas']['LoginWithRefreshtoken'];
 export type SchemaRatingPatch = components['schemas']['RatingPatch'];
+export type SchemaProductId = components['schemas']['ProductId'];
+export type SchemaProductName = components['schemas']['ProductName'];
+export type SchemaProductDescription = components['schemas']['ProductDescription'];
+export type SchemaProductCategory = components['schemas']['ProductCategory'];
+export type SchemaProductSku = components['schemas']['ProductSku'];
+export type SchemaProductSlug = components['schemas']['ProductSlug'];
+export type SchemaProductTags = components['schemas']['ProductTags'];
+export type SchemaProductImage = components['schemas']['ProductImage'];
+export type SchemaProductPrice = components['schemas']['ProductPrice'];
+export type SchemaProductStockQuantity = components['schemas']['ProductStockQuantity'];
+export type SchemaProductStockPreOrder = components['schemas']['ProductStockPreOrder'];
+export type SchemaProductStock = components['schemas']['ProductStock'];
+export type SchemaProductPromotion = components['schemas']['ProductPromotion'];
+export type SchemaProductAttributes = components['schemas']['ProductAttributes'];
+export type SchemaProductVariant = components['schemas']['ProductVariant'];
+export type SchemaProduct = components['schemas']['Product'];
 export type SchemaUserRegister = components['schemas']['UserRegister'];
-export type SchemaUserLogin = components['schemas']['UserLogin'];
 export type SchemaLoginResponse = components['schemas']['LoginResponse'];
 export type SchemaUser = components['schemas']['User'];
 export type SchemaUserPatch = components['schemas']['UserPatch'];

@@ -2,6 +2,8 @@ import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, PrimaryGene
 import { components } from '../types/openapi';
 import Shop from './Shop';
 import RefreshToken from './RefreshToken';
+import Product from './Product';
+import Rating from './Rating';
 
 @Entity()
 export default class User {
@@ -39,4 +41,7 @@ export default class User {
         
     @OneToMany(() => RefreshToken, ({ user }) => user, { onDelete: 'CASCADE', cascade: false })
         refreshTokens: RefreshToken[];
+        
+    @OneToMany(() => Product, ({ user }) => user, { onDelete: 'CASCADE', cascade: false })
+        products: Product[];
 }
